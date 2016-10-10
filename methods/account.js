@@ -15,7 +15,7 @@ var con = mysql.createConnection({
 
 module.exports = {
     addNewAccount: function (name, card_num, limit) {
-        // create new account object
+        // create new Accounts object
         var account = {
             name: name,
             card_num: luhn.validate(card_num) ? card_num : null,
@@ -34,7 +34,7 @@ module.exports = {
                     throw err;
                 });
             }
-            // get info about the account
+            // get info about the Accounts
             con.query('SELECT balance, credit_limit, card_num FROM accounts WHERE name = ?', name, function (err, rows) {
                 if (err) {
                     return con.rollback(function () {
@@ -44,7 +44,7 @@ module.exports = {
                 var account = rows[0];
                 if(account){
                     var newBalance = Number(account.balance) + Number(amount.replace("$",""));
-                    // if card_num is valid && balance doesn't go over the limit then update account
+                    // if card_num is valid && balance doesn't go over the limit then update Accounts
                     if (account.card_num && newBalance <= account.credit_limit) {
                         con.query('UPDATE accounts SET balance = ? WHERE name = ?', [newBalance, name], function (err, res) {
                             if(err){
@@ -73,7 +73,7 @@ module.exports = {
                     throw err;
                 });
             }
-            // get the info about the account
+            // get the info about the Accounts
             con.query('SELECT balance, card_num FROM accounts WHERE name = ?', name, function (err, rows) {
                 if (err) {
                     return con.rollback(function () {
@@ -120,5 +120,12 @@ module.exports = {
         con.query('DELETE FROM accounts', function (err) {
             if (err) throw err;
         });
+    },
+    closeConnection : function (){
+        // if connection is active end it
+        if(con){
+            con.end();
+            con = null;
+        }
     }
 };

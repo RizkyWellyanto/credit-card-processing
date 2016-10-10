@@ -1,7 +1,7 @@
 var readline = require('readline');
 var fs = require('fs');
 var parseLine = require('./methods/parser').parseLine;
-var showAllAccounts = require('./methods/account').showAllAccounts;
+var Accounts = require('./methods/account');
 
 function main(){
     // check input file or stdin
@@ -28,7 +28,9 @@ function main(){
 
     // show all the accounts in the database
     stream_in.on('close', function (line) {
-        showAllAccounts();
+        Accounts.showAllAccounts();
+        Accounts.clearAllAccounts();
+        Accounts.closeConnection();
     });
 }
 

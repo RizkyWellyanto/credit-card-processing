@@ -4,7 +4,7 @@ module.exports = {
     parseLine: function (line) {
         line = line.split(" ");
 
-        // call specific functions
+        // call specific functions based on the command
         switch (line.shift()) {
             case("Add"):
                 Account.addNewAccount.apply(null, line);
@@ -18,9 +18,10 @@ module.exports = {
             case("Show"):
                 Account.showAllAccounts();
                 break;
-            case("Clear"):
-                Account.clearAllAccounts();
-                break;
+            // THIS IS FOR DEBUGGING PURPOSE. CLEARS ALL ENTRY IN DATABASE
+            // case("Clear"):
+            //     Account.clearAllAccounts();
+            //     break;
             default:
         }
     }
