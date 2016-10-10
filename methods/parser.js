@@ -1,27 +1,33 @@
 var Account = require("./account");
+var Promise = require("bluebird");
 
 module.exports = {
     parseLine: function (line) {
-        line = line.split(" ");
+        var arr = line.split(" ");
 
         // call specific functions based on the command
-        switch (line.shift()) {
+        switch (arr.shift()) {
             case("Add"):
-                Account.addNewAccount.apply(null, line);
-                break;
+                return new Promise(function (resolve, reject) {
+                    Account.addNewAccount.apply(null, arr).then(function () {
+                        console.log("Add done!");
+                        resolve();
+                    });
+                });
             case("Charge"):
-                Account.chargeAccount.apply(null, line);
-                break;
+                return new Promise(function (resolve, reject) {
+                    Account.chargeAccount.apply(null, arr).then(function () {
+                        console.log("Charge done!");
+                        resolve();
+                    });
+                });
             case("Credit"):
-                Account.creditAccount.apply(null, line);
-                break;
-            case("Show"):
-                Account.showAllAccounts();
-                break;
-            // THIS IS FOR DEBUGGING PURPOSE. CLEARS ALL ENTRY IN DATABASE
-            // case("Clear"):
-            //     Account.clearAllAccounts();
-            //     break;
+                return new Promise(function (resolve, reject) {
+                    Account.creditAccount.apply(null, arr).then(function () {
+                        console.log("Credit done!");
+                        resolve();
+                    });
+                });
             default:
         }
     }

@@ -9,6 +9,7 @@
   "author": "Rizky Wellyanto",
   "license": "ISC",
   "dependencies": {
+    "bluebird": "^3.4.6",
     "chai": "^3.5.0",
     "chai-spies": "^0.7.1",
     "luhn": "^2.1.0",
