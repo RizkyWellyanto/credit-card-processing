@@ -2,7 +2,6 @@ var readline = require('readline');
 var fs = require('fs');
 var parseLine = require('./methods/parser').parseLine;
 var Accounts = require('./methods/account');
-var Promise = require('bluebird');
 
 function main() {
     // check input file or stdin
@@ -22,21 +21,20 @@ function main() {
         });
     }
 
-    // handle every line asynchronously
-    var parsers = [];
+    // read every line
+    var lines = [];
     stream_in.on('line', function (line) {
-        parsers.push(parseLine(line));
+        lines.push(line);
     });
 
-    // wait for all the parsers, and when stdin closes show all the accounts in the database
+    // handle every line
     stream_in.on('close', function () {
-        Promise.all(parsers).then(function () {
-            Accounts.showAllAccounts();
-        }).then(function () {
-            Accounts.clearAllAccounts();
-        }).then(function () {
-            Accounts.closeConnection();
+        lines.forEach(function (line) {
+            parseLine(line);
         });
+
+        // show everything in database
+        Accounts.showAllAccounts();
     });
 }
 

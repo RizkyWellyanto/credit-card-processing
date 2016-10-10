@@ -1,77 +1,84 @@
 /*
-    Obviously this unit test doesn't have much coverage
-    but it's good enough for the scope of this demo
+ Obviously this unit test doesn't have much coverage
+ but it's good enough for the scope of this demo
  */
 
-var assert = require('assert');
+var assert = require('chai').assert;
+var expect = require('chai').expect;
 var proxyquire = require('proxyquire');
-var sinon = require ("sinon");
-
-// var stub functions
-var query = sinon.spy();
-var end = sinon.spy();
-var beginTransaction = sinon.spy();
 
 // mock objects
-var Account = proxyquire("../methods/account", {
-    "./connection":{
-        getConnection: function () {
-            return {
-                query:query,
-                end:end,
-                beginTransaction:beginTransaction
-            };
-        }
+var database = {
+    "test2": {
+        name: "test2",
+        card_num: "4485845429146222",
+        balance: 0,
+        credit_limit: 1000
+    },
+    "test3": {
+        name: "test3",
+        card_num: "4485845429146222",
+        balance: 600,
+        credit_limit: 1000
     }
+};
+var Account = proxyquire("../methods/account", {
+    "./database": database
 });
 
 // unit test the main methods
-describe('Accounts', function() {
-    describe('clearAllAccounts', function() {
-        it('should make the database empty', function(done) {
-            Account.clearAllAccounts();
-            assert(query.called);
-            done();
+describe('Accounts', function () {
+    describe('addNewAccount', function () {
+        it('should store name, card_num, and money to database', function () {
+            var account = {
+                name: "test1",
+                card_num: "4111111111111111",
+                balance: 0,
+                credit_limit: 1000
+            };
+
+            Account.addNewAccount("test1", "4111111111111111", "$1000");
+
+            expect(database[account.name]).to.deep.equal(account);
+        });
+
+        it('should put fake card num as null', function () {
+            var account = {
+                name: "fake card",
+                card_num: "123123123",
+                credit_limit: "1000"
+            };
+
+            Account.addNewAccount(account.name, account.card_num, account.credit_limit);
+            assert.isNull(database[account.name].card_num);
         });
     });
 
-    describe('showAllAccounts', function() {
-        it('should select all from database', function(done) {
-            Account.showAllAccounts();
-            assert(query.called);
-            done();
+    describe('chargeAccount', function () {
+        it('should increace balance', function () {
+            Account.chargeAccount("test2", "$600");
+
+            assert.equal(database["test2"].balance, 600);
+        });
+
+        it('should not increace balance if its over the limit', function () {
+            Account.chargeAccount("test2", "$600");
+
+            assert.equal(database["test2"].balance, 600);
         });
     });
 
-    describe('addNewAccount', function() {
-        it('should store name, card_num, and money to database', function(done) {
-            Account.addNewAccount("Rizky", "4111111111111111", "20");
-            assert(query.called);
-            done();
-        });
-    });
+    describe('creditAccount', function () {
+        it('should reduce the balance in database', function () {
+            Account.creditAccount("test3", "$500");
 
-    describe('chargeAccount', function() {
-        it('should deduct money from an Accounts in database', function(done) {
-            Account.chargeAccount("Rizky", "20");
-            assert(beginTransaction.called);
-            done();
+            assert.equal(database["test3"].balance, 100);
         });
-    });
 
-    describe('creditAccount', function() {
-        it('should add money to an Accounts in database', function(done) {
-            Account.creditAccount("Rizky", "20");
-            assert(beginTransaction.called);
-            done();
-        });
-    });
+        it('should go to negative if it should', function () {
+            Account.creditAccount("test3", "$200");
 
-    describe('closeConnection', function() {
-        it('should call connection end()', function(done) {
-            Account.closeConnection();
-            assert(end.called);
-            done();
+            assert.equal(database["test3"].balance, -100);
         });
     });
 });

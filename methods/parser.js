@@ -1,5 +1,4 @@
 var Account = require("./account");
-var Promise = require("bluebird");
 
 module.exports = {
     parseLine: function (line) {
@@ -8,23 +7,14 @@ module.exports = {
         // call specific functions based on the command
         switch (arr.shift()) {
             case("Add"):
-                return new Promise(function (resolve, reject) {
-                    Account.addNewAccount.apply(null, arr).then(function () {
-                        resolve();
-                    });
-                });
+                Account.addNewAccount.apply(null, arr);
+                break;
             case("Charge"):
-                return new Promise(function (resolve, reject) {
-                    Account.chargeAccount.apply(null, arr).then(function () {
-                        resolve();
-                    });
-                });
+                Account.chargeAccount.apply(null, arr);
+                break;
             case("Credit"):
-                return new Promise(function (resolve, reject) {
-                    Account.creditAccount.apply(null, arr).then(function () {
-                        resolve();
-                    });
-                });
+                Account.creditAccount.apply(null, arr);
+                break;
             default:
         }
     }
