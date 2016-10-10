@@ -9,11 +9,10 @@
   "author": "Rizky Wellyanto",
   "license": "ISC",
   "dependencies": {
-    "chai": "^3.5.0",
-    "chai-spies": "^0.7.1",
     "luhn": "^2.1.0",
     "mocha": "^3.1.0",
     "mysql": "^2.11.1",
+    "proxyquire": "^1.7.10",
     "sinon": "^1.17.6"
   }
 }

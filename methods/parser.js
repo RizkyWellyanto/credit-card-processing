@@ -22,6 +22,10 @@ module.exports = {
             // case("Clear"):
             //     Account.clearAllAccounts();
             //     break;
+            // THIS IS FOR DEBUGGING PURPOSE. END THE CONNECTION
+            // case("Close"):
+            //     Account.closeConnection();
+            //     break;
             default:
         }
     }

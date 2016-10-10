@@ -27,9 +27,12 @@ function main(){
     });
 
     // show all the accounts in the database
-    stream_in.on('close', function (line) {
+    stream_in.on('close', function () {
         Accounts.showAllAccounts();
-        Accounts.clearAllAccounts();
+
+        // uncomment this if you want to clear database after every session. (useful while debugging)
+        // Accounts.clearAllAccounts();
+
         Accounts.closeConnection();
     });
 }
