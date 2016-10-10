@@ -30,10 +30,8 @@ function main() {
 
     // wait for all the parsers, and when stdin closes show all the accounts in the database
     stream_in.on('close', function () {
-        console.log("waiting for promises");
-        console.log(parsers);
         Promise.all(parsers).then(function () {
-            Accounts.showAllAccounts()
+            Accounts.showAllAccounts();
         }).then(function () {
             Accounts.clearAllAccounts();
         }).then(function () {
