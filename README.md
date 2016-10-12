@@ -7,27 +7,27 @@ totally asynchronous, uses MySQL database.
 
 ## Overview of design decision
 1. Written in JS as NodeJS app
-- Simply because I've been using NodeJS stack in the past 5 months
-- Easy integration with the web environment. NodeJS is built This could be turned into a server that handles credit card processing API easily. If written
-- Can be scaled easily by spawning multiple instances of the program. set some master programs to do the load balancing
-- If written in Java or C++, requires tons of infrastructure setting to do the stuff above. Saves time to do it this way
-- A ton of open source packages. i.e. the luhn package. no need to reinvent the wheel
+..* Simply because I've been using NodeJS stack in the past 5 months
+..* Easy integration with the web environment. NodeJS is built This could be turned into a server that handles credit card processing API easily. If written
+..* Can be scaled easily by spawning multiple instances of the program. set some master programs to do the load balancing
+..* If written in Java or C++, requires tons of infrastructure setting to do the stuff above. Saves time to do it this way
+..* A ton of open source packages. i.e. the luhn package. no need to reinvent the wheel
 2. File structure
-- The main entry point is main. main only handles the top level important things. main calls other modules
-- This app could be turned into a web server by adding say Express framework to main.js which is just 1 single file
-- All methods are made modular in their specific modules so that it could be easily unit tested
-- For future expansion, say adding more API could be added inside methods/ folder
-- Modularity helps the team code different part of the code
+..* The main entry point is main. main only handles the top level important things. main calls other modules
+..* This app could be turned into a web server by adding say Express framework to main.js which is just 1 single file
+..* All methods are made modular in their specific modules so that it could be easily unit tested
+..* For future expansion, say adding more API could be added inside methods/ folder
+..* Modularity helps the team code different part of the code
 3. Dependencies
-- This version only have a small amount of external dependencies
-- All dependencies have lenient license such as MIT, so no legal headache
-- The parallel version has promises and mysql packages
-- I chose to use luhn package instead of writing one because there's really no need for me to rewrite this. the package is maintained by the open source community, so it's good code, and I could spend my time coding on other things that's new rather than try to reinvent the wheel
+..* This version only have a small amount of external dependencies
+..* All dependencies have lenient license such as MIT, so no legal headache
+..* The parallel version has promises and mysql packages
+..* I chose to use luhn package instead of writing one because there's really no need for me to rewrite this. the package is maintained by the open source community, so it's good code, and I could spend my time coding on other things that's new rather than try to reinvent the wheel
 4. Extras
-- The master branch is a simple version. easily coded under an hour. but the parallel version took me ~10hrs so far, and yet it's not entirely done
-- Database schema in the improved version takes id as primary key. even though the example shows that we use the name as keys for each account. in real life scenario, a lot of people might have the same name
-- We could also put a SQL index in name and credit card, because as far as I know credit card numbers are unique
-- 2 tests are available so far since for the scope of this demo, unit-test helps to make sure the methods work, and the end-to-end test the program handles the input correctly 
+..* The master branch is a simple version. easily coded under an hour. but the parallel version took me ~10hrs so far, and yet it's not entirely done
+..* Database schema in the improved version takes id as primary key. even though the example shows that we use the name as keys for each account. in real life scenario, a lot of people might have the same name
+..* We could also put a SQL index in name and credit card, because as far as I know credit card numbers are unique
+..* 2 tests are available so far since for the scope of this demo, unit..*test helps to make sure the methods work, and the end..*to..*end test the program handles the input correctly 
 
 ## Future Improvements
 Some features are already implemented in the parallel version. However it's not fully tested use with care
