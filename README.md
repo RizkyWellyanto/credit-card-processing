@@ -31,10 +31,14 @@ totally asynchronous, uses MySQL database.
 
 ## Future Improvements
 ###Some features are already implemented in the parallel version. However it's not fully tested use with care
-1. Use an actual database. The improved version uses an existing database such as MySQL. we could use some NoSQL database like mongodb, but I have a feeling that when it comes to payment system, consistency and atomicity are more important than availability and eventuality. ACID vs BASE
-2. Asynchronous execution. we could make the program faster by utilizing javascript's asynchronous nature. However this might cause race conditions. In the improved version there is still no guarantee on the ordering. However in the future, I'd put some locks to make sure one account's input handled in order. While at the same time other accounts could be processed
-3. Paralelization. We could paralellize this program more on top of async execution. however, since Javascript is single threaded, we could not spawn threads to handle more inputs. But we could move up the paralellization one level up by spawning multiple processes. Make some processes as master and handle the load balance while the other as slaves that handles each inputs
-4. Security. A layer of encryption would help anonymize the data if somehow our system is breached
+1. Use an actual database.
+   The improved version uses an existing database such as MySQL. we could use some NoSQL database like mongodb, but I have a feeling that when it comes to payment system, consistency and atomicity are more important than availability and eventuality. ACID vs BASE
+2. Asynchronous execution. 
+   we could make the program faster by utilizing javascript's asynchronous nature. However this might cause race conditions. In the improved version there is still no guarantee on the ordering. However in the future, I'd put some locks to make sure one account's input handled in order. While at the same time other accounts could be processed
+3. Paralelization. 
+   We could paralellize this program more on top of async execution. however, since Javascript is single threaded, we could not spawn threads to handle more inputs. But we could move up the paralellization one level up by spawning multiple processes. Make some processes as master and handle the load balance while the other as slaves that handles each inputs
+4. Security. 
+   A layer of encryption would help anonymize the data if somehow our system is breached
 
 ## Code Example
 
